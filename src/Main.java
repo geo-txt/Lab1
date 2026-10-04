@@ -1,13 +1,55 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class Client {
+    private String address;
+    private String name;
+    private String phoneNumber;
+}
+
+public class Courier {
+    private String name;
+    private String transport;
+}
+
+public class Position {
+    private String name;
+    private int amount;
+    private double price;
+}
+
+public interface DeliveryMethod {
+
+}
+
+public class StandardDelivery implements DeliveryMethod {
+
+}
+
+public class ExpressDelivery implements DeliveryMethod {
+
+}
+
+public class PickupDelivery implements DeliveryMethod {
+
+}
+
+public enum OrderStatus {
+    New, Processing, Delivering, Delivered, Cancelled
+}
+
+public class Order {
+    private int orderNumber;
+    private OrderStatus status;
+    private Client client;
+    private List<Position> positions = new ArrayList<>();
+    private DeliveryMethod deliveryMethod;
+    private Courier courier;
+    private double price;
+    private int deliveryTime;
+}
+
 void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
     IO.println(String.format("Hello and welcome!"));
 
     for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
         IO.println("i = " + i);
     }
 }
