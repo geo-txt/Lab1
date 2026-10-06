@@ -37,26 +37,34 @@ public class Position {
         this.amount = amount;
         this.price = price;
     }
-    
+
     public String getPositionName() {return this.name;}
     public int getAmount() {return this.amount;}
     public double getPrice() {return this.price;}
 }
 
 public interface DeliveryMethod {
-
+    double cost(Order order);
+    int days(Order order);
+    boolean courierNeeded();
 }
 
-public class StandardDelivery implements DeliveryMethod {
+public class NoDelivery implements DeliveryMethod {
+    public double cost(Order order) {return 0;}
+    public int days(Order order) {return 4;}
+    public boolean courierNeeded() {return false;}
+}
 
+public class CourierDelivery implements DeliveryMethod {
+    public double cost(Order order) {return 500;}
+    public int days(Order order) {return 3;}
+    public boolean courierNeeded() {return true;}
 }
 
 public class ExpressDelivery implements DeliveryMethod {
-
-}
-
-public class PickupDelivery implements DeliveryMethod {
-
+    public double cost(Order order) {return 1000;}
+    public int days(Order order) {return 1;}
+    public boolean courierNeeded() {return true;}
 }
 
 public enum OrderStatus {
