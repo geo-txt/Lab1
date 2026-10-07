@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Client {
     private String address;
     private String name;
@@ -78,7 +80,7 @@ public class Order {
     private List<Position> positions = new ArrayList<>();
     private DeliveryMethod deliveryMethod;
     private Courier courier;
-    private double price;
+    private double cost;
     private int deliveryTime;
 
     public void setClient(Client client) {this.client = client;}
@@ -86,13 +88,28 @@ public class Order {
     public void setDeliveryMethod(DeliveryMethod deliveryMethod) {this.deliveryMethod = deliveryMethod;}
     public void setCourier(Courier courier) {this.courier = courier;}
     public void setDeliveryTime(int deliveryTime) {this.deliveryTime = deliveryTime;}
-    public void setPrice(double price) {this.price = price;}
+    public void setCost(double cost) {this.cost = cost;}
     public void setStatus(OrderStatus status) {this.status = status;}
+    public void addPosition(Position position) {this.positions.add(position);}
 
     public int getOrderNumber() {return this.orderNumber;}
     public OrderStatus getStatus() {return this.status;}
-    private double getPrice() {return this.price;}
-    private int getDeliveryTime() {return this.deliveryTime;}
+    public double getCost() {return this.cost;}
+    public int getDeliveryTime() {return this.deliveryTime;}
+    public List<Position> getPositions() {return this.positions;}
+
+    public double calculateCost() {
+        double s = 0;
+        for (Position p : positions) {s += p.getAmount() * p.getPrice();}
+        this.setCost(this.getCost() + s);
+        return s;
+    }
+
+    public void applyMethod(DeliveryMethod method) {
+        this.setDeliveryMethod(method);
+        this.setDeliveryTime(method.days(this));
+        this.setCost(this.getCost() + method.cost(this));
+    }
 }
 
 void main() {
