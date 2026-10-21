@@ -22,6 +22,7 @@ public class Order {
     public OrderStatus getStatus() {return this.status;}
     public int getDeliveryTime() {return this.deliveryTime;}
     public List<Position> getPositions() {return this.positions;}
+    public Client getClient() {return this.client;}
 
     public Order(int number) {
         setOrderNumber(number);

@@ -98,7 +98,15 @@ public class Menu {
                     break;
 
                 case 2:
-                    System.out.println("Вывод списка заказов");
+                    System.out.println("Вывод списка заказов: ");
+                    if (orderList.isEmpty()) {
+                        System.out.println("Заказов пока нет.");
+                    }
+                    else {
+                        for (Order order : orderList) {
+                            System.out.println("Заказ №" + order.getOrderNumber() + ". Клиент: " + order.getClient().getClientName() + ". Позиций: " + order.getPositions().size() + ". Стоимость: " + order.calculateTotalCost() + " руб. Статус: " + order.getStatus());
+                        }
+                    }
                     break;
 
                 case 3:
