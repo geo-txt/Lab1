@@ -21,8 +21,10 @@ public class Order {
     public int getOrderNumber() {return this.orderNumber;}
     public OrderStatus getStatus() {return this.status;}
     public int getDeliveryTime() {return this.deliveryTime;}
+    public DeliveryMethod getDeliveryMethod() {return deliveryMethod;}
     public List<Position> getPositions() {return this.positions;}
     public Client getClient() {return this.client;}
+    public Courier getCourier() {return courier;}
 
     public Order(int number) {
         setOrderNumber(number);
@@ -48,5 +50,17 @@ public class Order {
     public void applyMethod(DeliveryMethod method) {
         this.setDeliveryMethod(method);
         this.setDeliveryTime(method.days(this));
+    }
+
+    public void assignCourier(Courier courier) {
+        if (getDeliveryMethod() == null)
+            throw new IllegalStateException("Сначала выберите способ доставки");
+        if (!getDeliveryMethod().courierNeeded())
+            throw new IllegalStateException("Этот заказ не требует курьера");
+        if (getCourier() != null)
+            throw new IllegalStateException("Курьер уже назначен");
+
+        this.courier = courier;
+        courier.busy();
     }
 }

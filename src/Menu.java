@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Menu {
     private List<Order> orderList = new ArrayList<>();
+    private List<Courier> courierList = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
 
     public void addOrder(Order order) {this.orderList.add(order);}
@@ -29,6 +30,12 @@ public class Menu {
                 System.out.println("Это не число, попробуйте ещё раз: ");
             }
         }
+    }
+
+    public Menu() {
+        courierList.add(new Courier("Иван", "велосипед"));
+        courierList.add(new Courier("Федот", "автомобиль"));
+        courierList.add(new Courier("Мария", "велосипед"));
     }
 
     public Order findOrder() {
@@ -170,7 +177,26 @@ public class Menu {
                     break;
 
                 case 4:
-                    System.out.println("Назначить курьера");
+                    System.out.println("Назначение курьера");
+                    System.out.println("Введите номер заказа");
+                    foundOrder = findOrder();
+                    if (foundOrder == null) break;
+
+                    for (Courier courier : courierList) {
+                        if (courier.isAvailable()) {
+                            try {
+                                foundOrder.assignCourier(courier);
+                                System.out.println("Назначен курьер: " + courier.getCourierName());
+                                break;
+                            }
+                            catch (IllegalStateException e) {
+                                System.out.println("Не удалось: " + e.getMessage());
+                            }
+                        }
+                    }
+                    if (foundOrder.getCourier() == null) {
+                        System.out.println("Нет доступных курьеров");
+                    }
                     break;
 
                 case 5:
