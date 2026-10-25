@@ -31,6 +31,30 @@ public class Menu {
         }
     }
 
+    public Order findOrder() {
+        Order foundOrder = null;
+        if (orderList.isEmpty()) {
+            System.out.println("Заказов пока нет.");
+            return null;
+        }
+
+        boolean run1 = true;
+        while (run1) {
+            int orderNum = readInt();
+            for (Order order : orderList) {
+                if (order.getOrderNumber() == orderNum) {
+                    foundOrder = order;
+                    run1 = false;
+                    break;
+                }
+            }
+            if (foundOrder == null) {
+                System.out.println("Заказ не найден, повторите ввод.");
+            }
+        }
+        return foundOrder;
+    }
+
     public void menuStart() {
         boolean run = true;
         int orderCount = 1;
@@ -111,28 +135,14 @@ public class Menu {
                 case 3:
                     System.out.println("Выбор способа доставки:");
                     System.out.println("Введите номер заказа");
-                    Order foundOrder = null;
-                    boolean run1 = true;
-                    while (run1) {
-                        int orderNum = readInt();
-                        for (Order order : orderList) {
-                            if (order.getOrderNumber() == orderNum) {
-                                foundOrder = order;
-                                run1 = false;
-                                break;
-                            }
-                        }
-                        if (foundOrder == null) {
-                            System.out.println("Заказ не найден, повторите ввод.");
-                        }
-                    }
+                    Order foundOrder = findOrder();
 
                     System.out.println("Выберите способ доставки:");
                     System.out.println("1. Самовывоз");
                     System.out.println("2. Доставка крьером");
                     System.out.println("3. Экспресс-доставка");
                     DeliveryMethod method = null;
-                    run1 = true;
+                    boolean run1 = true;
                     while (run1) {
                         int type = readInt();
                         switch (type) {
