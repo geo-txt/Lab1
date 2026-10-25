@@ -43,10 +43,9 @@ public class Menu {
             System.out.println("4. Назначить курьера");
             System.out.println("5. Изменить статус заказа");
             System.out.println("6. Выход");
-            int choice1 = scanner.nextInt();
+            int choice1 = readInt();
             switch(choice1) {
                 case 1:
-                    scanner.nextLine();
                     Order new_order = new Order(orderCount);
                     System.out.print("Создание заказа. Введите клиента: ");
                     String name = scanner.nextLine();
@@ -110,7 +109,54 @@ public class Menu {
                     break;
 
                 case 3:
-                    System.out.println("Выбрать способ доставки");
+                    System.out.println("Выбор способа доставки:");
+                    System.out.println("Введите номер заказа");
+                    Order foundOrder = null;
+                    boolean run1 = true;
+                    while (run1) {
+                        int orderNum = readInt();
+                        for (Order order : orderList) {
+                            if (order.getOrderNumber() == orderNum) {
+                                foundOrder = order;
+                                run1 = false;
+                                break;
+                            }
+                        }
+                        if (foundOrder == null) {
+                            System.out.println("Заказ не найден, повторите ввод.");
+                        }
+                    }
+
+                    System.out.println("Выберите способ доставки:");
+                    System.out.println("1. Самовывоз");
+                    System.out.println("2. Доставка крьером");
+                    System.out.println("3. Экспресс-доставка");
+                    DeliveryMethod method = null;
+                    run1 = true;
+                    while (run1) {
+                        int type = readInt();
+                        switch (type) {
+                            case 1:
+                                method = new NoDelivery();
+                                run1 = false;
+                                break;
+                            case 2:
+                                method = new CourierDelivery();
+                                run1 = false;
+                                break;
+                            case 3:
+                                method = new ExpressDelivery();
+                                run1 = false;
+                                break;
+                            default:
+                                System.out.println("Неверный тип доставки.");
+                                break;
+                        }
+                    }
+
+                    foundOrder.applyMethod(method);
+                    System.out.println("Способ доставки выбран. Срок: " + foundOrder.getDeliveryTime() + " дн.");
+                    System.out.println("Стоимость заказа с доставкой: " + foundOrder.calculateTotalCost() + " руб.");
                     break;
 
                 case 4:
