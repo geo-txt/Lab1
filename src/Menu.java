@@ -146,7 +146,7 @@ public class Menu {
 
                     System.out.println("Выберите способ доставки:");
                     System.out.println("1. Самовывоз");
-                    System.out.println("2. Доставка крьером");
+                    System.out.println("2. Доставка курьером");
                     System.out.println("3. Экспресс-доставка");
                     DeliveryMethod method = null;
                     boolean run1 = true;
@@ -182,20 +182,20 @@ public class Menu {
                     foundOrder = findOrder();
                     if (foundOrder == null) break;
 
-                    for (Courier courier : courierList) {
-                        if (courier.isAvailable()) {
-                            try {
-                                foundOrder.assignCourier(courier);
-                                System.out.println("Назначен курьер: " + courier.getCourierName());
-                                break;
-                            }
-                            catch (IllegalStateException e) {
-                                System.out.println("Не удалось: " + e.getMessage());
-                            }
-                        }
+                    Courier freeCourier = null;
+                    for (Courier c : courierList) {
+                        if (c.isAvailable()) { freeCourier = c; break; }
                     }
-                    if (foundOrder.getCourier() == null) {
+                    if (freeCourier == null) {
                         System.out.println("Нет доступных курьеров");
+                        break;
+                    }
+
+                    try {
+                        foundOrder.assignCourier(freeCourier);
+                        System.out.println("Назначен курьер: " + freeCourier.getCourierName() + " на транспорте: " + freeCourier.getCourierTransport());
+                    } catch (IllegalStateException e) {
+                        System.out.println("Не удалось: " + e.getMessage());
                     }
                     break;
 
