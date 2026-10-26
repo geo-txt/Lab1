@@ -201,6 +201,39 @@ public class Menu {
 
                 case 5:
                     System.out.println("Изменить статус заказа");
+                    System.out.println("Введите номер заказа");
+                    foundOrder = findOrder();
+
+                    System.out.println("Выберите желаемое действие:");
+                    System.out.println("1. Следующий статус");
+                    System.out.println("2. Отменить заказ");
+                    run1 = true;
+                    while (run1) {
+                        int type = readInt();
+                        switch (type) {
+                            case 1:
+                                try {
+                                    foundOrder.nextStatus();
+                                    System.out.println("Статус заказа изменён на " + foundOrder.getStatus());
+                                } catch (IllegalStateException e) {
+                                    System.out.println("Ошибка: " + e.getMessage());
+                                }
+                                run1 = false;
+                                break;
+                            case 2:
+                                try {
+                                    foundOrder.cancelOrder();
+                                    System.out.println("Заказ отменён.");
+                                } catch (IllegalStateException e) {
+                                    System.out.println("Ошибка: " + e.getMessage());
+                                }
+                                run1 = false;
+                                break;
+                            default:
+                                System.out.println("Некорректный ввод, попробуйте ещё раз.");
+                                break;
+                        }
+                    }
                     break;
 
                 case 6:

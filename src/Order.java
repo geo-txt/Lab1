@@ -63,4 +63,45 @@ public class Order {
         this.courier = courier;
         courier.busy();
     }
+
+    public void releaseCourier() {
+        if (courier != null) {
+            courier.available();   // курьер снова свободен
+            courier = null;        // отвязываем его от заказа
+        }
+    }
+
+    public void nextStatus() {
+        switch (status) {
+            case New:
+                status = OrderStatus.Processing;
+                break;
+            case Processing:
+                status = OrderStatus.Delivering;
+                break;
+            case Delivering:
+                status = OrderStatus.Delivered;
+                releaseCourier();
+                break;
+            case Delivered:
+                throw new IllegalStateException("Заказ уже доставлен");
+            case Cancelled:
+                throw new IllegalStateException("Заказ отменён, статус не меняется");
+        }
+    }
+
+    public void cancelOrder() {
+        switch (status) {
+            case Delivering:
+                throw new IllegalStateException("Заказ уже доставляется.");
+            case Delivered:
+                throw new IllegalStateException("Заказ уже доставлен.");
+            case Cancelled:
+                throw new IllegalStateException("Заказ уже отменён.");
+            default:
+                status = OrderStatus.Cancelled;
+                releaseCourier();
+                break;
+        }
+    }
 }
