@@ -62,6 +62,60 @@ public class Menu {
         return foundOrder;
     }
 
+    public Client createClient() {
+        System.out.print("Создание заказа. Введите клиента: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Введите адрес: ");
+        String address = scanner.nextLine();
+
+        System.out.print("Введите телефон: ");
+        String phone = scanner.nextLine();
+
+        Client new_client = new Client(name, address, phone);
+        return new_client;
+    }
+
+    public Position createPosition() {
+        System.out.print("Название товара: ");
+        String productName = scanner.nextLine();
+
+        System.out.print("Количество: ");
+        int amount = readInt();
+
+        System.out.print("Цена за штуку: ");
+        double price = readDouble();
+
+        Position position = new Position(productName, amount, price);
+        return position;
+    }
+
+    public DeliveryMethod askMethod() {
+        DeliveryMethod method = null;
+        boolean run1 = true;
+        while (run1) {
+            int type = readInt();
+            switch (type) {
+                case 1:
+                    method = new NoDelivery();
+                    run1 = false;
+                    break;
+                case 2:
+                    method = new CourierDelivery();
+                    run1 = false;
+                    break;
+                case 3:
+                    method = new ExpressDelivery();
+                    run1 = false;
+                    break;
+                default:
+                    System.out.println("Неверный тип доставки.");
+                    break;
+            }
+        }
+        return method;
+    }
+
     public void menuStart() {
         boolean run = true;
         int orderCount = 1;
@@ -78,17 +132,7 @@ public class Menu {
             switch(choice1) {
                 case 1:
                     Order new_order = new Order(orderCount);
-                    System.out.print("Создание заказа. Введите клиента: ");
-                    String name = scanner.nextLine();
-
-                    System.out.print("Введите адрес: ");
-                    String address = scanner.nextLine();
-
-                    System.out.print("Введите телефон: ");
-                    String phone = scanner.nextLine();
-
-                    Client new_client = new Client(name, address, phone);
-                    new_order.setClient(new_client);
+                    new_order.setClient(createClient());
 
                     System.out.println("Добавление товаров");
 
@@ -98,18 +142,7 @@ public class Menu {
                         int choice2 = readInt();
                         switch (choice2) {
                             case 1:
-                                System.out.print("Название товара: ");
-                                String productName = scanner.nextLine();
-
-                                System.out.print("Количество: ");
-                                int amount = readInt();
-
-                                System.out.print("Цена за штуку: ");
-                                double price = readDouble();
-
-                                Position position = new Position(productName, amount, price);
-                                new_order.addPosition(position);
-
+                                new_order.addPosition(createPosition());
                                 System.out.println("Товар добавлен.");
                                 break;
 
@@ -143,36 +176,15 @@ public class Menu {
                     System.out.println("Выбор способа доставки:");
                     System.out.println("Введите номер заказа");
                     Order foundOrder = findOrder();
-                    if (foundOrder == null) {break;}
+                    if (foundOrder == null) break;
 
                     System.out.println("Выберите способ доставки:");
                     System.out.println("1. Самовывоз");
                     System.out.println("2. Доставка курьером");
                     System.out.println("3. Экспресс-доставка");
-                    DeliveryMethod method = null;
-                    boolean run1 = true;
-                    while (run1) {
-                        int type = readInt();
-                        switch (type) {
-                            case 1:
-                                method = new NoDelivery();
-                                run1 = false;
-                                break;
-                            case 2:
-                                method = new CourierDelivery();
-                                run1 = false;
-                                break;
-                            case 3:
-                                method = new ExpressDelivery();
-                                run1 = false;
-                                break;
-                            default:
-                                System.out.println("Неверный тип доставки.");
-                                break;
-                        }
-                    }
+                    
+                    foundOrder.applyMethod(askMethod());
 
-                    foundOrder.applyMethod(method);
                     System.out.println("Способ доставки выбран. Срок: " + foundOrder.getDeliveryTime() + " дн.");
                     System.out.println("Стоимость заказа с доставкой: " + foundOrder.calculateTotalCost() + " руб.");
                     break;
@@ -181,7 +193,7 @@ public class Menu {
                     System.out.println("Назначение курьера");
                     System.out.println("Введите номер заказа");
                     foundOrder = findOrder();
-                    if (foundOrder == null) {break;}
+                    if (foundOrder == null) break;
 
                     Courier freeCourier = null;
                     for (Courier c : courierList) {
@@ -204,12 +216,12 @@ public class Menu {
                     System.out.println("Изменить статус заказа");
                     System.out.println("Введите номер заказа");
                     foundOrder = findOrder();
-                    if (foundOrder == null) {break;}
+                    if (foundOrder == null) break;
 
                     System.out.println("Выберите желаемое действие:");
                     System.out.println("1. Следующий статус");
                     System.out.println("2. Отменить заказ");
-                    run1 = true;
+                    boolean run1 = true;
                     while (run1) {
                         int type = readInt();
                         switch (type) {
