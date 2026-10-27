@@ -11,11 +11,11 @@ public class Order {
     private int deliveryTime;
 
     public void setClient(Client client) {this.client = client;}
-    public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
-    public void setDeliveryMethod(DeliveryMethod deliveryMethod) {this.deliveryMethod = deliveryMethod;}
-    public void setCourier(Courier courier) {this.courier = courier;}
-    public void setDeliveryTime(int deliveryTime) {this.deliveryTime = deliveryTime;}
-    public void setStatus(OrderStatus status) {this.status = status;}
+    private void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
+    private void setDeliveryMethod(DeliveryMethod deliveryMethod) {this.deliveryMethod = deliveryMethod;}
+    private void setCourier(Courier courier) {this.courier = courier;}
+    private void setDeliveryTime(int deliveryTime) {this.deliveryTime = deliveryTime;}
+    private void setStatus(OrderStatus status) {this.status = status;}
     public void addPosition(Position position) {this.positions.add(position);}
 
     public int getOrderNumber() {return this.orderNumber;}

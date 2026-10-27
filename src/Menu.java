@@ -143,6 +143,7 @@ public class Menu {
                     System.out.println("Выбор способа доставки:");
                     System.out.println("Введите номер заказа");
                     Order foundOrder = findOrder();
+                    if (foundOrder == null) {break;}
 
                     System.out.println("Выберите способ доставки:");
                     System.out.println("1. Самовывоз");
@@ -180,7 +181,7 @@ public class Menu {
                     System.out.println("Назначение курьера");
                     System.out.println("Введите номер заказа");
                     foundOrder = findOrder();
-                    if (foundOrder == null) break;
+                    if (foundOrder == null) {break;}
 
                     Courier freeCourier = null;
                     for (Courier c : courierList) {
@@ -203,6 +204,7 @@ public class Menu {
                     System.out.println("Изменить статус заказа");
                     System.out.println("Введите номер заказа");
                     foundOrder = findOrder();
+                    if (foundOrder == null) {break;}
 
                     System.out.println("Выберите желаемое действие:");
                     System.out.println("1. Следующий статус");
